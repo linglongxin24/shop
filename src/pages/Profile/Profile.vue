@@ -3,23 +3,24 @@
       <section class="profile">
         <HeadTop title="我的"></HeadTop>
       <section class="profile-number">
-        <a href="javascript:" class="profile-link">
-          <div class="profile_image">
+        <router-link to="/login" class="profile-link">
+            <div class="profile_image">
             <i class="iconfont icon-person"></i>
-          </div>
-          <div class="user-info">
-            <p class="user-info-top">登录/注册</p>
-            <p>
-                <span class="user-icon">
-                  <i class="iconfont icon-shouji icon-mobile"></i>
-                </span>
-              <span class="icon-mobile-number">暂无绑定手机号</span>
-            </p>
-          </div>
-          <span class="arrow">
+            </div>
+            <div class="user-info">
+              <p class="user-info-top">登录/注册</p>
+              <p>
+                    <span class="user-icon">
+                      <i class="iconfont icon-shouji icon-mobile"></i>
+                    </span>
+                <span class="icon-mobile-number">暂无绑定手机号</span>
+              </p>
+            </div>
+            <span class="arrow">
               <i class="iconfont icon-jiantou1"></i>
-            </span>
-        </a>
+            </span></router-link>
+<!--        <a href="javascript:" class="profile-link">-->
+<!--        </a>-->
       </section>
       <section class="profile_info_data border-1px">
         <ul class="info_data_list">
@@ -141,6 +142,7 @@ export default {
       .header_login_text
         color #fff
   .profile //我的
+    overflow hidden
     width 100%
     .profile-number
       margin-top 45.5px
