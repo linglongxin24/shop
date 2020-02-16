@@ -306,11 +306,22 @@
 
 <script>
 import HeadTop from '../../components/HeadTop/HeadTop'
+import 'swiper/css/swiper.min.css'
+import Swiper from 'swiper'
 export default {
   name: 'MSite',
   components: {HeadTop},
   comments: {
     HeadTop
+  },
+  mounted () {
+    // eslint-disable-next-line no-new
+    new Swiper('.swiper-container', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination'
+      }
+    })
   }
 }
 </script>
