@@ -7,10 +7,15 @@
 
 <script>
 import FootGuide from './components/FootGuide/FootGuide'
+import {reqFoodTypes} from './api'
 
 export default {
   components: {
     FootGuide
+  },
+  async mounted () {
+    const foodTypes = await reqFoodTypes()
+    console.log(foodTypes)
   }
 }
 </script>

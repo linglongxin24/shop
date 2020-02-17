@@ -1,9 +1,11 @@
 // 1、根据经纬度获取位置详情
 import ajax from './ajax'
 
-export const reqAddress = (latitude, longitude) => ajax(`/position/${latitude},${longitude}`)
+const BASE_URL = '/api'
+
+export const reqAddress = (latitude, longitude) => ajax(`${BASE_URL}/position/${latitude},${longitude}`)
 // 2、获取食品分类列表
-export const reqFoodTypes = () => ajax('/index_category')
+export const reqFoodTypes = () => ajax(`${BASE_URL}/index_category`)
 // 3、根据经纬度获取商铺列表
 export const reqShopList = (latitude, longitude) => ajax('/shops', {latitude, longitude})
 // 4、根据经纬度和关键字搜索商铺列表
