@@ -1,7 +1,7 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-    <HeadTop title="昌平区北七家宏福科技园(337省道北)">
+    <HeadTop :title="address.name">
           <i class="iconfont icon-sousuo" slot="left"></i>
           <span class="header_login_text" slot="right">登录|注册</span>
     </HeadTop>
@@ -130,13 +130,18 @@ import HeadTop from '../../components/HeadTop/HeadTop'
 import 'swiper/css/swiper.min.css'
 import Swiper from 'swiper'
 import ShopList from '../../components/ShopList/ShopList'
+import {mapState} from 'vuex'
 export default {
   name: 'MSite',
   components: {ShopList, HeadTop},
   comments: {
     HeadTop
   },
+  computed: {
+    ...mapState(['address', 'foodTypes'])
+  },
   mounted () {
+    this.$store.dispatch('getFoodTypes')
     // eslint-disable-next-line no-new
     new Swiper('.swiper-container', {
       loop: true,
