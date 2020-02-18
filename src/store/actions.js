@@ -1,4 +1,4 @@
-import {RECEIVE_ADDRESS, RECEIVE_FOOD_TYPES, RECEIVE_SHOP_LIST} from './mutations_types'
+import {RECEIVE_ADDRESS, RECEIVE_FOOD_TYPES, RECEIVE_SHOP_LIST, RECEIVE_USER_INFO} from './mutations_types'
 import {reqAddress, reqFoodTypes, reqShopList} from '../api'
 export default {
   async getAddress ({commit, state}) {
@@ -25,5 +25,8 @@ export default {
       const shopList = result.data
       commit(RECEIVE_SHOP_LIST, {shopList})
     }
+  },
+  saveUserInfo ({commit}, userInfo) {
+    commit(RECEIVE_USER_INFO, {userInfo})
   }
 }

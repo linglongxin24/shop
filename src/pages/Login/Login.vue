@@ -40,7 +40,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha" @click="getCaptcha">
+                <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha" @click="getCaptcha" ref="captcha">
               </section>
             </section>
           </div>
@@ -58,6 +58,7 @@
 
 <script>
 import AlertTip from '../../components/AlertTip/AlertTip'
+import {reqPwdLogin} from '../../api'
 export default {
   components: {AlertTip},
   data () {
@@ -93,8 +94,8 @@ export default {
         }, 1000)
       }
     },
-    getCaptcha (event) {
-      event.target.src = 'http://localhost:4000/captcha?time=' + Date.now()
+    getCaptcha () {
+      this.$refs.captcha.src = 'http://localhost:4000/captcha?time=' + Date.now()
     },
     showDialog (msg) {
       this.alertText = msg
@@ -102,7 +103,7 @@ export default {
     closeTip () {
       this.alertText = ''
     },
-    login () {
+    async login () {
       if (this.loginWay) {
         // 短信验证码登录
         const {rightPhone, code} = this
@@ -115,10 +116,25 @@ export default {
         const {account, password, captcha} = this
         if (!account) {
           this.showDialog('请输入账号')
+          return
         } else if (!password) {
           this.showDialog('请输入密码')
+          return
         } else if (!captcha) {
           this.showDialog('请输入验证码')
+          return
+        }
+        const result = await reqPwdLogin({account, password, captcha})
+        if (result.code === 0) {
+          // eslint-disable-next-line no-unused-vars
+          const user = result.data
+          await this.$store.dispatch('saveUserInfo', user)
+          await this.$router.replace('/profile')
+        } else {
+          // eslint-disable-next-line no-unused-vars
+          const msg = result.msg
+          this.showDialog(msg)
+          this.getCaptcha()
         }
       }
     }
