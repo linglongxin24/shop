@@ -13,7 +13,9 @@
           <div  :class="{on:loginWay}">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
-              <button disabled="disabled" class="get_verification" :class="{right_phone: rightPhone}">获取验证码</button>
+              <button :disabled="!rightPhone" class="get_verification" :class="{right_phone: rightPhone}" @click="getCode">
+                {{countDownTime>0?`已发送(${countDownTime}s)`:'获取验证码'}}
+              </button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -29,10 +31,11 @@
                 <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" >
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input v-if="showPassword" v-model="password" type="text" maxlength="8" placeholder="密码">
+                <input v-else v-model="password" type="password" maxlength="8" placeholder="密码">
+                <div class="switch_button" :class="showPassword?'on':'off'"  @click="showPassword=!showPassword">
+                  <div class="switch_circle" :class="showPassword?'right':''"></div>
+                  <span class="switch_text">{{showPassword?'abc':'...'}}</span>
                 </div>
               </section>
               <section class="login_message">
@@ -58,12 +61,31 @@ export default {
   data () {
     return {
       loginWay: true, // true代表短信验证码登录
-      phone: ''
+      countDownTime: 0,
+      phone: '',
+      password: '',
+      showPassword: false
     }
   },
   computed: {
     rightPhone () {
       return /^1\d{10}$/.test(this.phone)
+    },
+    getCountDownTime () {
+      return this.countDownTime
+    }
+  },
+  methods: {
+    getCode: function () {
+      if (this.countDownTime === 0) {
+        this.countDownTime = 59
+        const intervalId = setInterval(() => {
+          this.countDownTime--
+          if (this.countDownTime <= 0) {
+            clearInterval(intervalId)
+          }
+        }, 1000)
+      }
     }
   }
 }
@@ -171,6 +193,8 @@ export default {
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(30px)
             .login_hint
               margin-top 12px
               color #999
